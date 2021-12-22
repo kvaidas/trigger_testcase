@@ -1,0 +1,11 @@
+
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  testcase:
+    runs-on: ubuntu-latest
+    env:
+      TEST: ${{ toJSON(github.event) }}
+    steps:
+      - run: echo $TEST
