@@ -1,11 +1,25 @@
 
 on:
   pull_request:
-    types: [closed]
+
 jobs:
   testcase:
     runs-on: ubuntu-latest
     env:
-      TEST: ${{ toJSON(github.event) }}
+      CONTEXT: ${{ toJSON(github) }}
     steps:
-      - run: echo $TEST
+      - run: |
+          token=$(
+            echo "$CONTEXT" | jq '.token'
+          )
+          pr_number=$(
+            echo "$CONTEXT" | jq '.event.pull_request.number'
+          )
+          comment="this is a comment"
+
+          curl \
+            -H 'Accept: application/vnd.github.v3+json' \
+            -H "Authorization: Bearer $token" \
+            -XPOST \
+            -d "{\"body\":\"$comment\"}" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${pr_number}/comments"
