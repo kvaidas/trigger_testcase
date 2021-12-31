@@ -5,9 +5,7 @@ on:
 jobs:
   testcase:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write 
-      pull-requests: write
+    permissions: write-all
     env:
       CONTEXT: ${{ toJSON(github) }}
     steps:
