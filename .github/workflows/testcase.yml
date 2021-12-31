@@ -21,7 +21,6 @@ jobs:
           comment="this is a comment"
 
           curl \
-            -v \
             -H 'Accept: application/vnd.github.v3+json' \
             -H "Authorization: Bearer $token" \
             -XPOST \
